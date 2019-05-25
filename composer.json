@@ -1,0 +1,26 @@
+{
+    "name": "rescue/http",
+    "description": "Rescue HTTP library",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aleksey Ishutin",
+            "email": "ishutin.alexey@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "phpunit/phpunit": "^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rescue\\Http\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rescue\\Http\\Tests\\": "tests/"
+        }
+    }
+}
