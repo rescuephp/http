@@ -1,5 +1,5 @@
 {
-    "name": "rescue/http",
+    "name": "rescuephp/http",
     "description": "Rescue HTTP library",
     "type": "library",
     "license": "MIT",
