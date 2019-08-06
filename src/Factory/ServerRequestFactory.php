@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http\Factory;
 
 use InvalidArgumentException;
+use Psr\Http\Message\ServerRequestFactoryInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Message\UriInterface;
 use Rescue\Http\ServerRequest;
-use Rescue\Http\ServerRequestInterface;
-use Rescue\Http\UriInterface;
 
 class ServerRequestFactory implements ServerRequestFactoryInterface
 {
@@ -75,7 +80,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * @inheritDoc
      */
-    public function createServerRequest(string $method, $uri): ServerRequestInterface
+    public function createServerRequest(string $method, $uri, array $serverParams = []): ServerRequestInterface
     {
         if (!$uri instanceof UriInterface) {
             $uri = $this->uriFactory->createUri($uri);
@@ -83,7 +88,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 
         $body = $this->streamFactory->createStream();
 
-        return new ServerRequest($method, $uri, [], $body, self::DEFAULT_HTTP_PROTOCOL_VERSION);
+        return new ServerRequest($method, $uri, [], $body, self::DEFAULT_HTTP_PROTOCOL_VERSION, $serverParams);
     }
 
     /**

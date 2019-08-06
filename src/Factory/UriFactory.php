@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http\Factory;
 
 use InvalidArgumentException;
+use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Message\UriInterface;
 use Rescue\Http\Uri;
-use Rescue\Http\UriInterface;
 
 class UriFactory implements UriFactoryInterface
 {

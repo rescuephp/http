@@ -1,6 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http;
+
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UploadedFileInterface;
+use Psr\Http\Message\UriInterface;
 
 class ServerRequest extends Request implements ServerRequestInterface
 {
@@ -86,7 +93,6 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $this->query;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -163,18 +169,18 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * @inheritDoc
      */
-    public function getAttribute(string $name, $default = null)
+    public function getAttribute($name, $default = null)
     {
-        return $this->attributes[$name] ?? $default;
+        return $this->attributes[(string)$name] ?? $default;
     }
 
     /**
      * @inheritDoc
      */
-    public function withAttribute(string $name, $value): ServerRequestInterface
+    public function withAttribute($name, $value): ServerRequestInterface
     {
         $instance = clone $this;
-        $instance->attributes[$name] = $value;
+        $instance->attributes[(string)$name] = $value;
 
         return $instance;
     }
@@ -182,8 +188,9 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * @inheritDoc
      */
-    public function withoutAttribute(string $name): ServerRequestInterface
+    public function withoutAttribute($name): ServerRequestInterface
     {
+        $name = (string)$name;
         if (!isset($this->attributes[$name])) {
             return $this;
         }

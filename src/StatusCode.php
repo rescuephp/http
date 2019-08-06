@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http;
 
-interface StatusCodeInterface
+interface StatusCode
 {
     // Informational 1xx
     public const STATUS_CONTINUE = 100;

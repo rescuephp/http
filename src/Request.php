@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http;
 
-
-use function in_array;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UriInterface;
 
 class Request implements RequestInterface
 {
@@ -68,6 +71,7 @@ class Request implements RequestInterface
      */
     public function withRequestTarget($requestTarget): RequestInterface
     {
+
         if ($this->requestTarget === $requestTarget) {
             return $this;
         }
@@ -89,7 +93,7 @@ class Request implements RequestInterface
     /**
      * @inheritDoc
      */
-    public function withMethod(string $method): RequestInterface
+    public function withMethod($method): RequestInterface
     {
         $normalized = $this->normalizeMethod($method);
 
@@ -114,7 +118,7 @@ class Request implements RequestInterface
     /**
      * @inheritDoc
      */
-    public function withUri(UriInterface $uri, bool $preserveHost = false): RequestInterface
+    public function withUri(UriInterface $uri, $preserveHost = false): RequestInterface
     {
         if ($this->uri === $uri) {
             return $this;
@@ -130,27 +134,6 @@ class Request implements RequestInterface
         }
 
         return $instance;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function mayHaveABody(): bool
-    {
-        return in_array($this->method, self::getMethodsWithBody(), true);
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function getMethodsWithBody(): array
-    {
-        return [
-            self::METHOD_DELETE,
-            self::METHOD_POST,
-            self::METHOD_PUT,
-            self::METHOD_PATCH,
-        ];
     }
 
     private function composeRequestTarget(): string

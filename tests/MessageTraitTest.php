@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Tests\Http;
 
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\MessageInterface;
 use Rescue\Http\Factory\StreamFactory;
-use Rescue\Http\MessageInterface;
 use Rescue\Http\MessageTrait;
 
 final class MessageTraitTest extends TestCase

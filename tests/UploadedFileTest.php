@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Tests\Http;
 
 use Exception;
@@ -15,7 +17,7 @@ final class UploadedFileTest extends TestCase
      */
     public function testBase(): void
     {
-        $name = random_int(10000, 99999);
+        $name = (string)random_int(10000, 99999);
         $filename = dirname(__DIR__) . '/tests/temp/' . $name;
         $moveToFilename = $filename . '_moved';
 

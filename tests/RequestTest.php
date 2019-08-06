@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Tests\Http;
 
 use PHPUnit\Framework\TestCase;
@@ -22,7 +24,6 @@ final class RequestTest extends TestCase
         $this->assertEquals($uri, $request->getUri());
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('origin-form', $request->getRequestTarget());
-        $this->assertTrue($request->mayHaveABody());
         $this->assertEquals('', $request->getBody()->getContents());
     }
 }

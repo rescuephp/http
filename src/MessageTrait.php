@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http;
+
+use Psr\Http\Message\StreamInterface;
 
 trait MessageTrait
 {
@@ -33,10 +37,9 @@ trait MessageTrait
     }
 
     /**
-     * @param string $version
-     * @return self
+     * @inheritDoc
      */
-    public function withProtocolVersion(string $version): self
+    public function withProtocolVersion($version): self
     {
         if ($this->protocolVersion === $version) {
             return $this;
@@ -57,8 +60,7 @@ trait MessageTrait
     }
 
     /**
-     * @param StreamInterface $body
-     * @return self
+     * @inheritDoc
      */
     public function withBody(StreamInterface $body): self
     {
@@ -83,7 +85,7 @@ trait MessageTrait
     /**
      * @inheritDoc
      */
-    public function getHeaderLine(string $name): string
+    public function getHeaderLine($name): string
     {
         return implode('; ', $this->getHeader($name));
     }
@@ -91,7 +93,7 @@ trait MessageTrait
     /**
      * @inheritDoc
      */
-    public function getHeader(string $name): array
+    public function getHeader($name): array
     {
         $normalized = $this->normalizeHeaderName($name);
 
@@ -105,11 +107,9 @@ trait MessageTrait
     }
 
     /**
-     * @param string $name
-     * @param string|string[] $value
-     * @return self
+     * @inheritDoc
      */
-    public function withAddedHeader(string $name, $value): self
+    public function withAddedHeader($name, $value): self
     {
         if (!is_array($value)) {
             $value = (array)$value;
@@ -130,17 +130,18 @@ trait MessageTrait
         return $instance;
     }
 
-    public function hasHeader(string $name): bool
+    /**
+     * @inheritDoc
+     */
+    public function hasHeader($name): bool
     {
         return isset($this->headerNamesMap[$this->normalizeHeaderName($name)]);
     }
 
     /**
-     * @param string $name
-     * @param string|string[] $value
-     * @return self
+     * @inheritDoc
      */
-    public function withHeader(string $name, $value): self
+    public function withHeader($name, $value): self
     {
         if (!is_array($value)) {
             $value = (array)$value;
@@ -162,10 +163,9 @@ trait MessageTrait
     }
 
     /**
-     * @param string $name
-     * @return self
+     * @inheritDoc
      */
-    public function withoutHeader(string $name): self
+    public function withoutHeader($name): self
     {
         $normalized = $this->normalizeHeaderName($name);
 

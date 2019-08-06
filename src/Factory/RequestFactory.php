@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http\Factory;
 
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Message\UriInterface;
 use Rescue\Http\Request;
-use Rescue\Http\RequestInterface;
-use Rescue\Http\UriInterface;
 
 class RequestFactory implements RequestFactoryInterface
 {

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Tests\Http;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\StreamInterface;
 use Rescue\Http\Stream;
-use Rescue\Http\StreamInterface;
 use RuntimeException;
 
 final class StreamTest extends TestCase

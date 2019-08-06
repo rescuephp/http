@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http;
 
 use Exception;
 use InvalidArgumentException;
+use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 use function is_resource;
 
@@ -169,7 +172,7 @@ class Stream implements StreamInterface
     /**
      * @inheritDoc
      */
-    public function seek(int $offset, int $whence = 0): void
+    public function seek($offset, $whence = 0): void
     {
         if ($this->stream === null) {
             throw new RuntimeException('Stream is detached');
@@ -262,7 +265,7 @@ class Stream implements StreamInterface
     /**
      * @inheritDoc
      */
-    public function write(string $string): int
+    public function write($string): int
     {
         if ($this->stream === null) {
             throw new RuntimeException('Stream is detached');
@@ -294,7 +297,7 @@ class Stream implements StreamInterface
     /**
      * @inheritDoc
      */
-    public function read(int $length): string
+    public function read($length): string
     {
         if ($this->stream === null) {
             throw new RuntimeException('Stream is detached');
@@ -324,7 +327,7 @@ class Stream implements StreamInterface
     /**
      * @inheritDoc
      */
-    public function getMetadata(string $key = null)
+    public function getMetadata($key = null)
     {
         if ($this->stream === null) {
             return $key ? null : [];

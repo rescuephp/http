@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http;
+
+use Psr\Http\Message\ResponseInterface;
 
 class Response implements ResponseInterface
 {
@@ -16,8 +20,10 @@ class Response implements ResponseInterface
      */
     private $reasonPhrase;
 
-    public function __construct(int $statusCode = ResponseInterface::STATUS_OK, $reasonPhrase = '')
-    {
+    public function __construct(
+        int $statusCode = StatusCode::STATUS_OK,
+        string $reasonPhrase = ''
+    ) {
         $this->statusCode = $statusCode;
         $this->reasonPhrase = $reasonPhrase;
     }
@@ -33,8 +39,9 @@ class Response implements ResponseInterface
     /**
      * @inheritDoc
      */
-    public function withStatus(int $code, string $reasonPhrase = ''): ResponseInterface
+    public function withStatus($code, $reasonPhrase = ''): ResponseInterface
     {
+        $code = (int)$code;
         if ($this->statusCode === $code && $this->reasonPhrase === $reasonPhrase) {
             return $this;
         }

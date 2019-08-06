@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http\Factory;
 
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\StreamInterface;
 use Rescue\Http\Stream;
-use Rescue\Http\StreamInterface;
 
 class StreamFactory implements StreamFactoryInterface
 {

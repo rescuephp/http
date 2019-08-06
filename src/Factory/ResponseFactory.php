@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http\Factory;
 
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Rescue\Http\Response;
-use Rescue\Http\ResponseInterface;
+use Rescue\Http\StatusCode;
 
 class ResponseFactory implements ResponseFactoryInterface
 {
@@ -20,11 +25,12 @@ class ResponseFactory implements ResponseFactoryInterface
     /**
      * @inheritDoc
      */
-    public function createResponse(int $code = ResponseInterface::STATUS_OK): ResponseInterface
-    {
+    public function createResponse(
+        int $code = StatusCode::STATUS_OK,
+        string $reasonPhrase = ''
+    ): ResponseInterface {
         $stream = $this->streamFactory->createStream();
 
-        return (new Response($code, '1.1'))
-            ->withBody($stream);
+        return (new Response($code, $reasonPhrase))->withBody($stream);
     }
 }

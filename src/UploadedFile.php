@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http;
 
+use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
 use const PHP_SAPI;
 use const UPLOAD_ERR_OK;
@@ -63,8 +67,9 @@ class UploadedFile implements UploadedFileInterface
     /**
      * @inheritDoc
      */
-    public function moveTo(string $targetPath): void
+    public function moveTo($targetPath): void
     {
+        $targetPath = (string)$targetPath;
         $uri = $this->stream->getMetadata('uri');
 
         if ($uri === null) {

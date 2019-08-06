@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Http;
+
+use Psr\Http\Message\UriInterface;
 
 class Uri implements UriInterface
 {
@@ -120,15 +124,17 @@ class Uri implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withScheme(string $scheme): UriInterface
+    public function withScheme($scheme): UriInterface
     {
+        $scheme = strtolower($scheme);
+
         if ($this->scheme === $scheme) {
             return $this;
         }
 
         $instance = clone $this;
 
-        $instance->scheme = strtolower($scheme);
+        $instance->scheme = $scheme;
 
         return $instance;
     }
@@ -136,7 +142,7 @@ class Uri implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withUserInfo(string $user, string $password = null): UriInterface
+    public function withUserInfo($user, $password = null): UriInterface
     {
         $info = $this->formatUserInfo($user, $password);
 
@@ -153,8 +159,10 @@ class Uri implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withHost(string $host): UriInterface
+    public function withHost($host): UriInterface
     {
+        $host = (string)$host;
+
         if ($this->host === $host) {
             return $this;
         }
@@ -168,8 +176,12 @@ class Uri implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withPort(int $port = null): UriInterface
+    public function withPort($port = null): UriInterface
     {
+        if ($port !== null) {
+            $port = (int)$port;
+        }
+
         if ($this->port === $port) {
             return $this;
         }
@@ -183,8 +195,9 @@ class Uri implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withPath(string $path): UriInterface
+    public function withPath($path): UriInterface
     {
+        $path = (string)$path;
         if ($this->path === $path) {
             return $this;
         }
@@ -198,8 +211,10 @@ class Uri implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withQuery(string $query): UriInterface
+    public function withQuery($query): UriInterface
     {
+        $query = (string)$query;
+
         $instance = clone $this;
         $instance->query = str_replace('?', null, $query);
 
@@ -209,8 +224,10 @@ class Uri implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withFragment(string $fragment): UriInterface
+    public function withFragment($fragment): UriInterface
     {
+        $fragment = (string)$fragment;
+
         $instance = clone $this;
         $instance->fragment = str_replace('#', null, $fragment);
 

@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rescue\Tests\Http;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\UploadedFileInterface;
 use Rescue\Http\Factory\StreamFactory;
 use Rescue\Http\Factory\UploadedFileFactory;
 use Rescue\Http\ServerRequest;
 use Rescue\Http\Stream;
-use Rescue\Http\UploadedFileInterface;
-use function dirname;
 use Rescue\Http\Uri;
-
+use function dirname;
 
 final class ServerRequestTest extends TestCase
 {
@@ -46,15 +47,18 @@ final class ServerRequestTest extends TestCase
      */
     public function testWithUploadedFiles(): void
     {
-        $name = random_int(10000, 99999);
+        $name = (string)random_int(10000, 99999);
         $filename = dirname(__DIR__) . '/tests/temp/' . $name;
-        $file = fopen($filename, 'wb+');
+        fopen($filename, 'wb+');
 
-        $uploadedFileFactory = new UploadedFileFactory(new StreamFactory());
+        $streamFactory = new StreamFactory();
+        $stream = $streamFactory->createStreamFromFile($filename);
+
+        $uploadedFileFactory = new UploadedFileFactory();
         $request = new ServerRequest('post', new Uri());
 
         $request = $request->withUploadedFiles([
-            $uploadedFileFactory->createUploadedFile($file),
+            $uploadedFileFactory->createUploadedFile($stream),
         ]);
 
         $this->assertNotEmpty($request->getUploadedFiles());
