@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Rescue\Http\Factory;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Rescue\Http\Response;
-use Rescue\Http\StatusCode;
 
 class ResponseFactory implements ResponseFactoryInterface
 {
@@ -26,7 +26,7 @@ class ResponseFactory implements ResponseFactoryInterface
      * @inheritDoc
      */
     public function createResponse(
-        int $code = StatusCode::STATUS_OK,
+        int $code = StatusCodeInterface::STATUS_OK,
         string $reasonPhrase = ''
     ): ResponseInterface {
         $stream = $this->streamFactory->createStream();

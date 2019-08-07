@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rescue\Http;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class Response implements ResponseInterface
@@ -21,7 +22,7 @@ class Response implements ResponseInterface
     private $reasonPhrase;
 
     public function __construct(
-        int $statusCode = StatusCode::STATUS_OK,
+        int $statusCode = StatusCodeInterface::STATUS_OK,
         string $reasonPhrase = ''
     ) {
         $this->statusCode = $statusCode;
