@@ -72,7 +72,7 @@ class UploadedFile implements UploadedFileInterface
         $targetPath = (string)$targetPath;
         $uri = $this->stream->getMetadata('uri');
 
-        if ($uri === null) {
+        if ($uri === null || !is_string($uri)) {
             throw new RuntimeException('Invalid stream uri');
         }
 
