@@ -4,7 +4,7 @@ php:
 
 before_install:
   - composer self-update
-  - chmod rw- tests/temp
+  - chmod drwxr-xr-x tests/temp
 
 install:
   - composer install --no-interaction
