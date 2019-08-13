@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rescue\Http;
 
+use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
@@ -42,6 +43,19 @@ class UploadedFile implements UploadedFileInterface
      */
     private $moved = false;
 
+    /**
+     * @var resource|null
+     */
+    private $file;
+
+    /**
+     * UploadedFile constructor.
+     * @param StreamInterface|resource|string $stream
+     * @param int|null $size
+     * @param int $error
+     * @param string|null $clientFilename
+     * @param string|null $clientMediaType
+     */
     public function __construct(
         StreamInterface $stream,
         int $size = null,
@@ -49,7 +63,7 @@ class UploadedFile implements UploadedFileInterface
         string $clientFilename = null,
         string $clientMediaType = null
     ) {
-        $this->stream = $stream;
+        $this->setStream($stream);
         $this->size = $size;
         $this->error = $error;
         $this->clientFilename = $clientFilename;
@@ -76,9 +90,11 @@ class UploadedFile implements UploadedFileInterface
             throw new RuntimeException('Invalid stream uri');
         }
 
-        $this->moved = $this->isCli()
-            ? rename($uri, $targetPath)
-            : move_uploaded_file($uri, $targetPath);
+        if ($this->file !== null) {
+            $this->moved = $this->isCli()
+                ? rename($uri, $targetPath)
+                : move_uploaded_file($uri, $targetPath);
+        }
 
         if ($this->moved === false) {
             throw new RuntimeException("Uploaded file could not be moved to $targetPath");
@@ -128,5 +144,21 @@ class UploadedFile implements UploadedFileInterface
     private function isCli(): bool
     {
         return PHP_SAPI === 'cli';
+    }
+
+    /**
+     * @param StreamInterface|resource|string $stream
+     */
+    private function setStream($stream): void
+    {
+        if (is_string($stream)) {
+            $this->file = $stream;
+        } elseif (is_resource($stream)) {
+            $this->stream = new Stream($stream);
+        } elseif ($stream instanceof StreamInterface) {
+            $this->stream = $stream;
+        } else {
+            throw new InvalidArgumentException('Invalid stream or file');
+        }
     }
 }
