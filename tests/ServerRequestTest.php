@@ -42,6 +42,19 @@ final class ServerRequestTest extends TestCase
         $this->assertEquals('', $request->getBody()->getContents());
     }
 
+    public function testWithHeaders(): void
+    {
+        $request = new ServerRequest('get', new Uri(), [
+            'A' => [' a', 'b'],
+            'C' => 'd',
+        ]);
+
+        $this->assertEquals(
+            ['A' => ['a', 'b'], 'C' => ['d']],
+            $request->getHeaders()
+        );
+    }
+
     /**
      * @throws Exception
      */
