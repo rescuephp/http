@@ -27,6 +27,10 @@ class UploadedFileFactory implements UploadedFileFactoryInterface
             throw new InvalidArgumentException('Stream is not readable');
         }
 
+        if ($size === null) {
+            $size = $stream->getSize();
+        }
+
         return new UploadedFile(
             $stream,
             $size,
