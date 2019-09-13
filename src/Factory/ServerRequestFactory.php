@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rescue\Http\Factory;
 
+use Generator;
 use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -70,7 +71,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             ->withHost($host)
             ->withUserInfo($user, $password);
 
-        $headers = $this->parseHeaders($server);
+        $headers = $this->getHeaders($server);
 
         $body = $this->streamFactory->createStream();
 
@@ -88,17 +89,18 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 
         $body = $this->streamFactory->createStream();
 
-        return new ServerRequest($method, $uri, [], $body, self::DEFAULT_HTTP_PROTOCOL_VERSION, $serverParams);
+        $headers = $this->getHeaders($serverParams);
+
+        return new ServerRequest($method, $uri, $headers, $body, self::DEFAULT_HTTP_PROTOCOL_VERSION, $serverParams);
     }
 
-    /**
-     * @param array $server
-     * @return string[][]
-     */
-    private function parseHeaders(array $server): array
+    private function getHeaders(array $server): array
     {
-        $headers = [];
+        return iterator_to_array($this->getHeadersIterator($server));
+    }
 
+    private function getHeadersIterator(array $server): Generator
+    {
         $serverHeaders = array_filter($server, static function (string $key) {
             return strpos($key, 'HTTP') === 0;
         }, ARRAY_FILTER_USE_KEY);
@@ -107,9 +109,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             $name = str_replace(['HTTP_', ' ', '_'], ['', '', '-'], $name);
             $name = strtolower($name);
 
-            $headers[$name][] = $value;
+            yield $name => $value;
         }
-
-        return $headers;
     }
 }
