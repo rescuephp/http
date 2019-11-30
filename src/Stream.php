@@ -8,6 +8,7 @@ use Exception;
 use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
+
 use function is_resource;
 
 class Stream implements StreamInterface
@@ -58,25 +59,13 @@ class Stream implements StreamInterface
      */
     private $stream;
 
-    /**
-     * @var bool
-     */
-    private $readable;
+    private bool $readable;
 
-    /**
-     * @var bool
-     */
-    private $writable;
+    private bool $writable;
 
-    /**
-     * @var bool
-     */
-    private $seekable;
+    private bool $seekable;
 
-    /**
-     * @var int
-     */
-    private $size;
+    private ?int $size;
 
     /**
      * Stream constructor.

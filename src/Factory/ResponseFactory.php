@@ -12,10 +12,7 @@ use Rescue\Http\Response;
 
 class ResponseFactory implements ResponseFactoryInterface
 {
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
+    private StreamFactoryInterface $streamFactory;
 
     public function __construct(StreamFactoryInterface $streamFactory)
     {

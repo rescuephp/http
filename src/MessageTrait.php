@@ -8,10 +8,7 @@ use Psr\Http\Message\StreamInterface;
 
 trait MessageTrait
 {
-    /**
-     * @var string
-     */
-    private $protocolVersion = '1.1';
+    private string $protocolVersion = '1.1';
 
     /**
      * @var StreamInterface
@@ -21,12 +18,12 @@ trait MessageTrait
     /**
      * @var string[][]
      */
-    private $headers = [];
+    private array $headers = [];
 
     /**
      * @var string[]
      */
-    private $headerNamesMap = [];
+    private array $headerNamesMap = [];
 
     /**
      * @inheritDoc
@@ -187,9 +184,12 @@ trait MessageTrait
      */
     private function normalizeHeaderValues(array $values): array
     {
-        return array_map(static function ($value) {
-            return trim($value, " \t");
-        }, $values);
+        return array_map(
+            static function ($value) {
+                return trim($value, " \t");
+            },
+            $values
+        );
     }
 
     private function normalizeHeaderName(string $name): string

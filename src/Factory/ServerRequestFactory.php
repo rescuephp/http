@@ -17,15 +17,9 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 {
     private const DEFAULT_HTTP_PROTOCOL_VERSION = '1.1';
 
-    /**
-     * @var UriFactoryInterface
-     */
-    private $uriFactory;
+    private UriFactoryInterface $uriFactory;
 
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
+    private StreamFactoryInterface $streamFactory;
 
     public function __construct(
         UriFactoryInterface $uriFactory,
@@ -101,9 +95,13 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 
     private function getHeadersIterator(array $server): Generator
     {
-        $serverHeaders = array_filter($server, static function (string $key) {
-            return strpos($key, 'HTTP') === 0;
-        }, ARRAY_FILTER_USE_KEY);
+        $serverHeaders = array_filter(
+            $server,
+            static function (string $key) {
+                return strpos($key, 'HTTP') === 0;
+            },
+            ARRAY_FILTER_USE_KEY
+        );
 
         foreach ($serverHeaders as $name => $value) {
             $name = str_replace(['HTTP_', ' ', '_'], ['', '', '-'], $name);

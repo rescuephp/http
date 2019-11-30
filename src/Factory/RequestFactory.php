@@ -12,10 +12,7 @@ use Rescue\Http\Request;
 
 class RequestFactory implements RequestFactoryInterface
 {
-    /**
-     * @var UriFactoryInterface
-     */
-    private $uriFactory;
+    private UriFactoryInterface $uriFactory;
 
     public function __construct(UriFactoryInterface $uriFactory)
     {

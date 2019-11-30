@@ -8,40 +8,19 @@ use Psr\Http\Message\UriInterface;
 
 class Uri implements UriInterface
 {
-    /**
-     * @var string
-     */
-    private $path;
+    private string $path;
 
-    /**
-     * @var string
-     */
-    private $scheme;
+    private string $scheme;
 
-    /**
-     * @var string
-     */
-    private $userInfo = '';
+    private string $userInfo = '';
 
-    /**
-     * @var string
-     */
-    private $host;
+    private string $host;
 
-    /**
-     * @var int
-     */
-    private $port;
+    private ?int $port;
 
-    /**
-     * @var string
-     */
-    private $query;
+    private string $query;
 
-    /**
-     * @var string
-     */
-    private $fragment;
+    private string $fragment;
 
     public function __construct(
         string $scheme = 'http',
@@ -239,13 +218,16 @@ class Uri implements UriInterface
      */
     public function __toString(): string
     {
-        return implode('', [
-            $this->getScheme() . '://',
-            $this->getAuthority(),
-            $this->getPath(),
-            empty($this->query) ? '' : "?{$this->getQuery()}",
-            empty($this->fragment) ? '' : "#{$this->getFragment()}",
-        ]);
+        return implode(
+            '',
+            [
+                $this->getScheme() . '://',
+                $this->getAuthority(),
+                $this->getPath(),
+                empty($this->query) ? '' : "?{$this->getQuery()}",
+                empty($this->fragment) ? '' : "#{$this->getFragment()}",
+            ]
+        );
     }
 
     /**

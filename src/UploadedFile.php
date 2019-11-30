@@ -8,40 +8,23 @@ use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
+
 use const PHP_SAPI;
 use const UPLOAD_ERR_OK;
 
 class UploadedFile implements UploadedFileInterface
 {
-    /**
-     * @var StreamInterface
-     */
-    private $stream;
+    private StreamInterface $stream;
 
-    /**
-     * @var int
-     */
-    private $size;
+    private ?int $size;
 
-    /**
-     * @var int
-     */
-    private $error;
+    private int $error;
 
-    /**
-     * @var string
-     */
-    private $clientFilename;
+    private ?string $clientFilename;
 
-    /**
-     * @var string
-     */
-    private $clientMediaType;
+    private ?string $clientMediaType;
 
-    /**
-     * @var bool
-     */
-    private $moved = false;
+    private bool $moved = false;
 
     /**
      * @var resource|null

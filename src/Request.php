@@ -12,15 +12,9 @@ class Request implements RequestInterface
 {
     use MessageTrait;
 
-    /**
-     * @var UriInterface
-     */
-    private $uri;
+    private UriInterface $uri;
 
-    /**
-     * @var string
-     */
-    private $method;
+    private string $method;
 
     /**
      * @var string
@@ -71,7 +65,6 @@ class Request implements RequestInterface
      */
     public function withRequestTarget($requestTarget): RequestInterface
     {
-
         if ($this->requestTarget === $requestTarget) {
             return $this;
         }

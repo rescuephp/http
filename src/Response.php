@@ -11,15 +11,9 @@ class Response implements ResponseInterface
 {
     use MessageTrait;
 
-    /**
-     * @var int
-     */
-    private $statusCode;
+    private int $statusCode;
 
-    /**
-     * @var string
-     */
-    private $reasonPhrase;
+    private string $reasonPhrase;
 
     public function __construct(
         int $statusCode = StatusCodeInterface::STATUS_OK,

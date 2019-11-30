@@ -9,6 +9,7 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Rescue\Http\UploadedFile;
+
 use const UPLOAD_ERR_OK;
 
 class UploadedFileFactory implements UploadedFileFactoryInterface
